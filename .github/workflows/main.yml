@@ -11,14 +11,18 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Git Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
   docker:
     name: Docker Job
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Set up Docker
         uses: docker/setup-docker-action@v5
 
@@ -37,7 +41,4 @@ jobs:
           context: .
           push: true
           tags: user/app:latest
-        with:
-          push: true
-          set: |
-            *.tags=user/app:latest
+
